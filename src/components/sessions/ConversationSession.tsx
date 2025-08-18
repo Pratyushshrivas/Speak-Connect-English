@@ -7,6 +7,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft, MessageCircle, Mic, MicOff, Volume2, Users, Coffee, Briefcase, Plane } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { SpeechRecognition } from "@/types/speech";
 
 interface ConversationScenario {
   id: string;
@@ -459,12 +460,5 @@ const ConversationSession: React.FC<ConversationSessionProps> = ({ onBack }) => 
   );
 };
 
-// Add speech recognition types
-declare global {
-  interface Window {
-    webkitSpeechRecognition: any;
-    SpeechRecognition: any;
-  }
-}
 
 export default ConversationSession;

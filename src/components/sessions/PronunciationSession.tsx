@@ -5,6 +5,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Mic, MicOff, Volume2, RotateCcw, CheckCircle, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { SpeechRecognition } from "@/types/speech";
 
 interface PronunciationWord {
   id: string;
@@ -428,13 +429,5 @@ const PronunciationSession: React.FC<PronunciationSessionProps> = ({ onBack }) =
 
   return null;
 };
-
-// Add speech recognition types
-declare global {
-  interface Window {
-    webkitSpeechRecognition: any;
-    SpeechRecognition: any;
-  }
-}
 
 export default PronunciationSession;
