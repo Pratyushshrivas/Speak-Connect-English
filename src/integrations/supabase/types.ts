@@ -14,7 +14,146 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      call_participants: {
+        Row: {
+          id: string
+          is_muted: boolean | null
+          joined_at: string | null
+          left_at: string | null
+          room_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          id?: string
+          is_muted?: boolean | null
+          joined_at?: string | null
+          left_at?: string | null
+          room_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          id?: string
+          is_muted?: boolean | null
+          joined_at?: string | null
+          left_at?: string | null
+          room_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "call_participants_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "call_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      call_rooms: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          current_participants: number | null
+          id: string
+          max_participants: number | null
+          room_type: string
+          status: string | null
+          topic: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          current_participants?: number | null
+          id?: string
+          max_participants?: number | null
+          room_type: string
+          status?: string | null
+          topic?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          current_participants?: number | null
+          id?: string
+          max_participants?: number | null
+          room_type?: string
+          status?: string | null
+          topic?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      matchmaking_queue: {
+        Row: {
+          call_type: string
+          expires_at: string | null
+          id: string
+          joined_at: string | null
+          topic: string | null
+          user_id: string | null
+          user_level: string | null
+        }
+        Insert: {
+          call_type: string
+          expires_at?: string | null
+          id?: string
+          joined_at?: string | null
+          topic?: string | null
+          user_id?: string | null
+          user_level?: string | null
+        }
+        Update: {
+          call_type?: string
+          expires_at?: string | null
+          id?: string
+          joined_at?: string | null
+          topic?: string | null
+          user_id?: string | null
+          user_level?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          interests: string[] | null
+          is_online: boolean | null
+          last_seen: string | null
+          level: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          interests?: string[] | null
+          is_online?: boolean | null
+          last_seen?: string | null
+          level?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          interests?: string[] | null
+          is_online?: boolean | null
+          last_seen?: string | null
+          level?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
