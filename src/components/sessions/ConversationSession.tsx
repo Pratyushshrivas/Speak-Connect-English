@@ -272,15 +272,21 @@ const ConversationSession: React.FC<ConversationSessionProps> = ({ onBack }) => 
   if (mode === "select") {
     return (
       <main className="container max-w-4xl py-8">
-        <Button variant="ghost" onClick={onBack} className="mb-6">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Back to Learning
-        </Button>
-
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-4">
-            Conversation Practice
-          </h1>
-          <p className="text-muted-foreground text-lg">Choose a scenario to practice real-life conversations</p>
+        <div className="flex items-center gap-4 mb-8">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={onBack}
+            className="hover:bg-secondary/10"
+          >
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <div>
+            <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-2">
+              Conversation Practice
+            </h1>
+            <p className="text-muted-foreground text-lg">Choose a scenario to practice real-life conversations</p>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
@@ -322,9 +328,20 @@ const ConversationSession: React.FC<ConversationSessionProps> = ({ onBack }) => 
   return (
     <main className="container max-w-3xl py-8">
       <div className="flex items-center justify-between mb-6">
-        <Button variant="ghost" onClick={() => setMode("select")}>
-          <ArrowLeft className="w-4 h-4 mr-2" /> Back
-        </Button>
+        <div className="flex items-center gap-4">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setMode("select")}
+            className="hover:bg-secondary/10"
+          >
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <div>
+            <h2 className="text-2xl font-bold">{selectedScenario.title}</h2>
+            <p className="text-muted-foreground">{selectedScenario.description}</p>
+          </div>
+        </div>
         <div className="flex items-center gap-4">
           <Badge variant={selectedScenario.difficulty === "easy" ? "secondary" : selectedScenario.difficulty === "medium" ? "default" : "destructive"}>
             {selectedScenario.difficulty}

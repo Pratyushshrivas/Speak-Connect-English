@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import SEO from "@/components/SEO";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Book, Headphones, Mic, MessageSquare, Sparkles, History } from "lucide-react";
+import { Book, Headphones, Mic, MessageSquare, Sparkles, History, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import VocabularySession from "@/components/sessions/VocabularySession";
 import GrammarSession from "@/components/sessions/GrammarSession";
 import PronunciationSession from "@/components/sessions/PronunciationSession";
@@ -12,6 +13,11 @@ import ReviewSession from "@/components/sessions/ReviewSession";
 
 const Learn = () => {
   const [activeSession, setActiveSession] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleBackToHome = () => {
+    navigate('/');
+  };
 
   if (activeSession === "vocabulary") {
     return <VocabularySession onBack={() => setActiveSession(null)} />;
@@ -35,8 +41,21 @@ const Learn = () => {
   return (
     <main className="container py-10">
       <SEO title="English Learning Sessions — SpeakConnect" description="Daily English lessons: vocabulary, grammar, pronunciation, and listening drills with XP and streaks." canonical="/learn" />
-      <h1 className="text-3xl font-bold mb-6">English Learning Sessions</h1>
-      <p className="text-muted-foreground mb-8">Short, interactive sessions designed to build real communication skills.</p>
+      
+      <div className="flex items-center gap-4 mb-8">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={handleBackToHome}
+          className="hover:bg-secondary/10"
+        >
+          <ArrowLeft className="h-4 w-4" />
+        </Button>
+        <div>
+          <h1 className="text-3xl font-bold mb-2">English Learning Sessions</h1>
+          <p className="text-muted-foreground">Short, interactive sessions designed to build real communication skills.</p>
+        </div>
+      </div>
 
       <div className="grid md:grid-cols-3 gap-6">
         <Card>

@@ -4,12 +4,34 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const navigate = useNavigate();
+
+  const handleBackToHome = () => {
+    navigate('/');
+  };
+
   return (
     <main className="container py-10">
       <SEO title="Your Profile — SpeakConnect" description="Set your level, goals, and learning schedule. Earn badges and track streaks." canonical="/profile" />
-      <h1 className="text-3xl font-bold mb-6">Your Profile</h1>
+      
+      <div className="flex items-center gap-4 mb-8">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={handleBackToHome}
+          className="hover:bg-secondary/10"
+        >
+          <ArrowLeft className="h-4 w-4" />
+        </Button>
+        <div>
+          <h1 className="text-3xl font-bold mb-2">Your Profile</h1>
+          <p className="text-muted-foreground">Set your level, goals, and learning schedule</p>
+        </div>
+      </div>
 
       <Card className="max-w-2xl">
         <CardHeader>
