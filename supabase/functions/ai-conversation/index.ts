@@ -12,7 +12,7 @@ serve(async (req) => {
   }
 
   try {
-    const { message, conversationHistory = [] } = await req.json();
+    const { message, conversationHistory = [], systemPrompt: customSystemPrompt } = await req.json();
     
     if (!message) {
       throw new Error('Message is required');
@@ -24,7 +24,7 @@ serve(async (req) => {
     }
 
     // Prepare the conversation context for Gemini
-    const systemPrompt = `You are an English conversation partner designed to help users practice and improve their English speaking skills. 
+    const systemPrompt = customSystemPrompt || `You are an English conversation partner designed to help users practice and improve their English speaking skills. 
 
 Guidelines:
 - Keep responses conversational and natural
@@ -95,7 +95,7 @@ The user is practicing English conversation with you. Respond naturally and help
 
     return new Response(
       JSON.stringify({ 
-        response: aiResponse,
+        message: aiResponse,
         conversationId: crypto.randomUUID()
       }),
       {

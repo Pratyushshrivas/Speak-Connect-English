@@ -5,9 +5,10 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, MessageCircle, Mic, MicOff, Volume2, Users, Coffee, Briefcase, Plane } from "lucide-react";
+import { ArrowLeft, MessageCircle, Mic, MicOff, Volume2, Users, Coffee, Briefcase, Plane, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { SpeechRecognition } from "@/types/speech";
+import VoiceConversationSession from "./VoiceConversationSession";
 
 interface ConversationScenario {
   id: string;
@@ -165,7 +166,7 @@ interface ConversationSessionProps {
 }
 
 const ConversationSession: React.FC<ConversationSessionProps> = ({ onBack }) => {
-  const [mode, setMode] = useState<"select" | "conversation">("select");
+  const [mode, setMode] = useState<"select" | "text" | "voice">("select");
   const [selectedScenario, setSelectedScenario] = useState<ConversationScenario | null>(null);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [conversationHistory, setConversationHistory] = useState<ConversationStep[]>([]);
@@ -184,9 +185,9 @@ const ConversationSession: React.FC<ConversationSessionProps> = ({ onBack }) => 
     }
   }, []);
 
-  const startScenario = (scenario: ConversationScenario) => {
+  const startScenario = (scenario: ConversationScenario, type: "text" | "voice") => {
     setSelectedScenario(scenario);
-    setMode("conversation");
+    setMode(type);
     setCurrentStepIndex(0);
     setConversationHistory([]);
     setScore(0);
@@ -269,6 +270,10 @@ const ConversationSession: React.FC<ConversationSessionProps> = ({ onBack }) => 
     recognitionInstance.start();
   };
 
+  if (mode === "voice") {
+    return <VoiceConversationSession onBack={onBack} />;
+  }
+
   if (mode === "select") {
     return (
       <main className="container max-w-4xl py-8">
@@ -293,8 +298,7 @@ const ConversationSession: React.FC<ConversationSessionProps> = ({ onBack }) => 
           {conversationScenarios.map((scenario) => (
             <Card 
               key={scenario.id}
-              className="hover:shadow-glow transition-all duration-300 cursor-pointer backdrop-card" 
-              onClick={() => startScenario(scenario)}
+              className="hover:shadow-glow transition-all duration-300 backdrop-card" 
             >
               <CardHeader>
                 <div className="flex items-center justify-between mb-2">
@@ -311,7 +315,23 @@ const ConversationSession: React.FC<ConversationSessionProps> = ({ onBack }) => 
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground mb-4">{scenario.context}</p>
-                <Button className="w-full bg-gradient-primary">Start Conversation</Button>
+                <div className="flex gap-2">
+                  <Button 
+                    className="flex-1 bg-gradient-primary"
+                    onClick={() => startScenario(scenario, "voice")}
+                  >
+                    <Phone className="w-4 h-4 mr-2" />
+                    Voice Call
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="flex-1"
+                    onClick={() => startScenario(scenario, "text")}
+                  >
+                    <MessageCircle className="w-4 h-4 mr-2" />
+                    Text Chat
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           ))}
