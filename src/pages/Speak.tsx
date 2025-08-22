@@ -31,12 +31,18 @@ const Speak = () => {
   }, [user, navigate]);
 
   const handleStartCall = (callType: 'one_on_one' | 'group' | 'topic' | 'free') => {
-    if (!user) return;
-    
-    if (callType === 'topic' && !selectedTopic) {
+    console.log('handleStartCall called with:', callType);
+    if (!user) {
+      console.log('No user found');
       return;
     }
     
+    if (callType === 'topic' && !selectedTopic) {
+      console.log('No topic selected for topic call');
+      return;
+    }
+    
+    console.log('Starting matchmaking for:', callType, selectedTopic);
     startMatchmaking(callType, callType === 'topic' ? selectedTopic : undefined);
   };
 
@@ -65,7 +71,9 @@ const Speak = () => {
   }
 
   // Show matchmaking interface if searching
+  console.log('Current callStatus:', callStatus);
   if (callStatus === 'matching') {
+    console.log('Rendering MatchmakingInterface');
     return (
       <main className="container py-10">
         <MatchmakingInterface onCancel={() => {}} />

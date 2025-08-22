@@ -49,18 +49,25 @@ export const useVoiceCall = () => {
 
   // Start matchmaking for a specific call type
   const startMatchmaking = useCallback(async (callType: CallType, topic?: string) => {
-    if (!user) return;
+    console.log('startMatchmaking called with:', callType, topic);
+    if (!user) {
+      console.log('startMatchmaking: No user found');
+      return;
+    }
 
     try {
+      console.log('Setting callStatus to matching');
       setCallStatus('matching');
       setMatchingTimer(120); // 2 minutes
 
+      console.log('Cleaning up existing matchmaking entries');
       // First, clean up any existing matchmaking entries for this user
       await supabase
         .from('matchmaking_queue')
         .delete()
         .eq('user_id', user.id);
 
+      console.log('Inserting new matchmaking entry');
       // Join matchmaking queue
       const { error: queueError } = await supabase
         .from('matchmaking_queue')
@@ -71,11 +78,16 @@ export const useVoiceCall = () => {
           user_level: 'beginner' // TODO: Get from user profile
         });
 
-      if (queueError) throw queueError;
+      if (queueError) {
+        console.error('Queue insertion error:', queueError);
+        throw queueError;
+      }
 
+      console.log('Starting matching timer');
       // Start matching timer
       matchingTimeout.current = setInterval(() => {
         setMatchingTimer(prev => {
+          console.log('Timer tick:', prev);
           if (prev <= 1) {
             handleMatchingTimeout();
             return 0;
@@ -84,6 +96,7 @@ export const useVoiceCall = () => {
         });
       }, 1000);
 
+      console.log('Listening for room assignments');
       // Listen for room assignments
       await listenForRoomAssignments();
 

@@ -53,6 +53,9 @@ const triviaQuestions: TriviaQuestion[] = [
 
 const MatchmakingInterface = ({ onCancel, onMatchFound, matchType = 'partner' }: MatchmakingInterfaceProps) => {
   const { callStatus, matchingTimer, cancelMatchmaking } = useVoiceCall();
+  
+  console.log('MatchmakingInterface render - callStatus:', callStatus, 'matchingTimer:', matchingTimer);
+  
   const [gameScore, setGameScore] = useState(0);
   const [floatingItems, setFloatingItems] = useState<FloatingItem[]>([]);
   const [currentTrivia, setCurrentTrivia] = useState<TriviaQuestion | null>(null);
@@ -169,7 +172,10 @@ const MatchmakingInterface = ({ onCancel, onMatchFound, matchType = 'partner' }:
     setFloatingItems([]);
   };
 
-  if (callStatus !== 'matching') return null;
+  // Temporarily removing this check to debug
+  // if (callStatus !== 'matching') return null;
+  
+  console.log('MatchmakingInterface continuing to render with callStatus:', callStatus);
 
   const progress = ((120 - matchingTimer) / 120) * 100;
   const formatTime = (seconds: number) => {
