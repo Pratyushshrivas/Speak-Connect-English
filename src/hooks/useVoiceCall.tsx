@@ -55,6 +55,12 @@ export const useVoiceCall = () => {
       setCallStatus('matching');
       setMatchingTimer(120); // 2 minutes
 
+      // First, clean up any existing matchmaking entries for this user
+      await supabase
+        .from('matchmaking_queue')
+        .delete()
+        .eq('user_id', user.id);
+
       // Join matchmaking queue
       const { error: queueError } = await supabase
         .from('matchmaking_queue')
